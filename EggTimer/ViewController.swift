@@ -9,22 +9,12 @@
 import UIKit
 
 class ViewController: UIViewController {
-        let softTime = 5
-        let mediumTime = 7
-        let hardTime = 12
+    let eggTimes = ["Soft": 5, "Medium": 7, "Hard": 12]
     
 
     @IBAction func hardnessSelected(_ sender: UIButton) {
-        let hardness = sender.currentTitle
-        
-        switch hardness {
-        case "Soft":
-            print(softTime)
-        case "Medium":
-            print(mediumTime)
-        default:
-            print(hardTime)
-        }
+        let hardness = sender.currentTitle! //느낌표: sender에 currentTitle이 nil인 경우는 없음을 확인함
+        print(eggTimes[hardness]!)  //느낌표: hardness로 eggTimes dictionary를 탐색했을 때 nil인 경우는 없음을 확인함
     }
     
 }
