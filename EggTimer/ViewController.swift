@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet var titleLabel: UILabel!
+    @IBOutlet weak var progressBar: UIProgressView!
+    
     var timer = Timer()
     var seconds = 60
     
@@ -17,6 +19,7 @@ class ViewController: UIViewController {
     
 
     @IBAction func hardnessSelected(_ sender: UIButton) {
+        timer.invalidate()
         let hardness = sender.currentTitle! //느낌표: sender에 currentTitle이 nil인 경우는 없음을 확인함
         print(eggTimes[hardness]!)  //느낌표: hardness로 eggTimes dictionary를 탐색했을 때 nil인 경우는 없음을 확인함
         seconds = eggTimes[hardness]!*60
@@ -25,10 +28,11 @@ class ViewController: UIViewController {
     
     @objc func countDownTimer(){
         var secondsRemaining = self.seconds
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true){_ in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true){_ in
             
             print("\(secondsRemaining) seconds")
             secondsRemaining -= 1
+            self.progressBar.progress = Float(secondsRemaining)/Float(self.seconds)
             
             if secondsRemaining < 1{
                 self.titleLabel.text = "Done!"
