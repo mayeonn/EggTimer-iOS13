@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
     @IBOutlet var titleLabel: UILabel!
@@ -15,6 +16,8 @@ class ViewController: UIViewController {
     var timer = Timer()
     var seconds = 60
     
+    var audioPlayer = AVAudioPlayer()
+
     let eggTimes = ["Soft": 5, "Medium": 7, "Hard": 12]
     
 
@@ -27,18 +30,26 @@ class ViewController: UIViewController {
     }
     
     @objc func countDownTimer(){
-        var secondsRemaining = self.seconds
-        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true){_ in
+        var secondsRemaining = seconds
+        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true){ [self]_ in
             
             print("\(secondsRemaining) seconds")
             secondsRemaining -= 1
-            self.progressBar.progress = Float(secondsRemaining)/Float(self.seconds)
+            progressBar.progress = Float(secondsRemaining)/Float(seconds)
             
             if secondsRemaining < 1{
-                self.titleLabel.text = "Done!"
-                self.timer.invalidate()
+                titleLabel.text = "Done!"
+                timer.invalidate()
+                playSound()
             }
             
         }
+    }
+    
+    func playSound() {
+        let url = Bundle.main.url(forResource: "alarm_sound", withExtension: "mp3")
+        self.audioPlayer = try! AVAudioPlayer(contentsOf: url!)
+        self.audioPlayer.play()
+        
     }
 }
